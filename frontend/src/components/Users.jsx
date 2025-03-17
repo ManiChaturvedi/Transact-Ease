@@ -2,17 +2,37 @@ import { useEffect, useState } from "react";
 import { Button } from "./Button";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import { getApiUrl } from "../config";
 
 export const Users = () => {
     const [users, setUsers] = useState([]);
     const [filter, setFilter] = useState("");
+    const [currentUserId, setCurrentUserId] = useState(null);
 
     useEffect(() => {
-        axios.get("http://localhost:3000/api/v1/user/bulk?filter=" + filter)
+        // Get current user ID from token
+        const token = localStorage.getItem("token");
+        if (token) {
+            try {
+                const decoded = jwtDecode(token);
+                setCurrentUserId(decoded.userId);
+            } catch (error) {
+                console.error("Error decoding token:", error);
+            }
+        }
+    }, []);
+
+    useEffect(() => {
+        axios.get(getApiUrl(`/api/v1/user/bulk?filter=${filter}`))
             .then(response => {
-                setUsers(response.data.user);
+                // Filter out the current user from the list
+                const filteredUsers = response.data.user.filter(user => 
+                    user._id !== currentUserId
+                );
+                setUsers(filteredUsers);
             });
-    }, [filter]);
+    }, [filter, currentUserId]);
 
     return (
         <>
@@ -27,7 +47,7 @@ export const Users = () => {
             </div>
             <div>
                 {users.map(user => (
-                    <User key={user._id} user={user} /> // Add key here
+                    <User key={user._id} user={user} />
                 ))}
             </div>
         </>

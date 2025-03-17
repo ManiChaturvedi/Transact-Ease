@@ -7,6 +7,7 @@ import { Button } from "../components/Button";
 import { Heading } from "../components/Heading";
 import { InputBox } from "../components/InputBox";
 import { SubHeading } from "../components/SubHeading";
+import { getApiUrl } from "../config";
 
 
 
@@ -18,13 +19,13 @@ export const Signin = () => {
 
     const handleSignin = async () => {
         try {
-            const response = await axios.post("http://localhost:3000/api/v1/user/signin", {
+            const response = await axios.post(getApiUrl("/api/v1/user/signin"), {
                 username: email,
                 password: password
             });
             
             const token = response.data.token;
-            localStorage.setItem("authToken", token); // Save token for future requests
+            localStorage.setItem("token", token); // Changed from "authToken" to "token"
             navigate("/dashboard"); // Redirect to dashboard
         } catch (err) {
             setError(err.response?.data?.message || "An error occurred");
