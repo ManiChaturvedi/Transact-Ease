@@ -1,15 +1,7 @@
 {
-  "name": "transact-ease",
-  "version": "1.0.0",
-  "description": "A simple money transfer application with user authentication and account management",
-  "scripts": {
-    "install:frontend": "cd frontend && npm install",
-    "install:backend": "cd backend && npm install",
-    "build:frontend": "cd frontend && npm run build",
-    "build": "npm run install:frontend && npm run install:backend && npm run build:frontend",
-    "start": "cd backend && node index.js"
-  },
-  "engines": {
-    "node": ">=18.0.0"
+  "dependencies": {
+    "@tailwindcss/vite": "^4.0.0",
+    "dotenv": "^16.4.7",
+    "tailwindcss": "^4.0.0"
   }
 }

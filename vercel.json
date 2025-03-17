@@ -6,8 +6,9 @@
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "/api" },
-    { "src": "/(assets|images|favicon)/(.*)", "dest": "/frontend/dist/$1/$2" },
-    { "src": "/(.*\\.(js|css|ico|png|jpg|svg|json))", "dest": "/frontend/dist/$1" },
+    { "handle": "filesystem" },
+    { "src": "/assets/(.*)", "dest": "/frontend/dist/assets/$1" },
+    { "src": "/(.*).(js|css|ico|png|jpg|svg|json)", "dest": "/frontend/dist/$1.$2" },
     { "src": "/(.*)", "dest": "/frontend/dist/index.html" }
   ]
 } 
